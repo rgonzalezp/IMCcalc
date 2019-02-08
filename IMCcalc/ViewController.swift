@@ -14,10 +14,11 @@ class ViewController: UIViewController, UITextFieldDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+          scroll.contentSize = CGSize(width:400,height: 2500)
         
         height.delegate = self
         weight.delegate = self
-            scroll.contentSize = CGSize(width:400,height: 2500)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -47,15 +48,23 @@ class ViewController: UIViewController, UITextFieldDelegate  {
         height.resignFirstResponder()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let result:Double = imc()
+        let nextView = segue.destination as! ViewResultViewController
+        nextView.indexIM = result
+    }
     @IBAction func calculateIMC(_ sender: Any) {
+        imc()
+    }
+    
+    func imc() -> Double {
         var IMC:Double
         let localWeight:Double?
         localWeight = Double(self.weight.text!)!
         let localHeight:Double? = Double(self.height.text!)!
         
         IMC = localWeight! / (localHeight! * localHeight!)
-        
-        print(IMC)
+        return IMC
     }
     
 }
